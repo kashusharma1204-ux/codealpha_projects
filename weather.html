@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Weather App</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<style>
+    body {
+  background-color: #62b5f1;
+  font-family: Arial;
+}
+
+.container {
+  width: 300px;
+  margin: 100px auto;
+  background: white;
+  padding: 20px;
+  text-align: center;
+  border-radius: 8px;
+}
+
+input, button {
+  padding: 8px;
+  margin: 5px;
+}
+</style>
+<body>
+
+  <div class="container">
+    <h2>Weather Application</h2>
+
+    <input type="text" id="city" placeholder="Enter city">
+    <button onclick="getWeather()">Search</button>
+
+    <div id="result">
+      <p id="temp"></p>
+      <p id="humidity"></p>
+      <p id="condition"></p>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
+<script>
+    async function getWeather() {
+  const city = document.getElementById("city").value;
+  const apiKey = "YOUR_API_KEY";
+
+  const url =
+    `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+
+    document.getElementById("temp").innerText =
+      "Temperature: " + data.main.temp + "°C";
+
+    document.getElementById("humidity").innerText =
+      "Humidity: " + data.main.humidity + "%";
+
+    document.getElementById("condition").innerText =
+      "Condition: " + data.weather[0].description;
+
+  } catch (error) {
+    alert("City not found");
+  }
+}
+</script>
